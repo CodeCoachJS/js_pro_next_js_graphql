@@ -2,7 +2,7 @@
 
 ---
 
-First, install dependencues and run the development server:
+First, install dependencies and run the development server:
 
 ```bash
 yarn

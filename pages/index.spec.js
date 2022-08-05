@@ -80,13 +80,13 @@ describe('index page', () => {
     const input = screen.getByTestId('search-input');
 
     // it only calls the function once every 1000ms
-    fireEvent.change(input, { target: { value: '12' } });
-    jest.advanceTimersByTime(1100);
-    fireEvent.change(input, { target: { value: '12' } });
+    fireEvent.change(input, { target: { value: '123' } });
     jest.advanceTimersByTime(1100);
     fireEvent.change(input, { target: { value: '123' } });
     jest.advanceTimersByTime(1100);
-    fireEvent.change(input, { target: { value: '12' } });
+    fireEvent.change(input, { target: { value: '123' } });
+    jest.advanceTimersByTime(1100);
+    fireEvent.change(input, { target: { value: '123' } });
 
     expect(getUsersMock).toHaveBeenCalledTimes(2);
   });
