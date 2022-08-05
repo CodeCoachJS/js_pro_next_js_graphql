@@ -1,18 +1,13 @@
 import { useEffect, useRef, useCallback } from 'react';
 
+/**
+ * This hook is used to debounce a function
+ * @param {func} callback - function to be debounced
+ * @param {delay} delay - delay in ms
+ * @returns {func} - debounced function
+ */
 const useDebounce = (callback, delay) => {
-  const callbackRef = useRef(callback);
-  useEffect(() => {
-    callbackRef.current = callback;
-  }, [callback]);
-
-  return useCallback(
-    (...args) => {
-      const handler = setTimeout(() => callbackRef.current(...args), delay);
-      return () => clearTimeout(handler);
-    },
-    [delay]
-  );
+  //TODO: implement debounce
 };
 
 export { useDebounce };
