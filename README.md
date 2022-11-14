@@ -19,6 +19,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
+You can watch a walkthrough here: https://www.loom.com/share/c108d903f6b24a348b7675afabd38101
+
 ## TODO
 
 ---
