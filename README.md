@@ -45,6 +45,10 @@ There are some ui/ux issues as well:
 - we don't want to fire off a request every time a user types a letter - we need to use a debounce method to prevent this
 - we should really only fire off a request if there are more than 3 characters as well
 
+You will know your work is done when ALL tests pass `ALL tests should pass.` Good luck!
+
+---
+
 **BONUS**
 
 Add some more tests to ensure that we only make a request when an input has more than 3 characters.
