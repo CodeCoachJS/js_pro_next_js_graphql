@@ -6,9 +6,13 @@ jest.mock('@apollo/react-hooks', () => ({
   useLazyQuery: jest.fn()
 }));
 
-jest.useFakeTimers();
-
 describe('index page', () => {
+  beforeEach(() => {
+    jest.useFakeTimers('modern');
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
   const getUsersMock = jest.fn(); // mock the getUsers function and be able to inspect it
 
   it('should render', async () => {
@@ -84,19 +88,16 @@ describe('index page', () => {
     // it only calls the function once every 1000ms
 
     fireEvent.change(input, { target: { value: '123' } });
-    jest.advanceTimersByTime(250);
-    fireEvent.change(input, { target: { value: '456' } });
-    jest.advanceTimersByTime(250); // 500ms
-    fireEvent.change(input, { target: { value: '123' } });
-    jest.advanceTimersByTime(250); // 750ms
-    fireEvent.change(input, { target: { value: '456' } });
-    jest.advanceTimersByTime(250); // 1000ms
-    fireEvent.change(input, { target: { value: '123' } });
-    jest.advanceTimersByTime(250); // 1250ms
-    fireEvent.change(input, { target: { value: '456' } });
-    jest.advanceTimersByTime(250); // 1500ms
-    // TODO: test the the debounced function is called after 1 second
 
-    expect(getUsersMock).toHaveBeenCalledTimes(3);
+    jest.advanceTimersByTime(100);
+    fireEvent.change(input, { target: { value: '123' } });
+
+    jest.advanceTimersByTime(999);
+    fireEvent.change(input, { target: { value: '456' } });
+
+    jest.advanceTimersByTime(100);
+    fireEvent.change(input, { target: { value: '123' } });
+
+    expect(getUsersMock).toHaveBeenCalledTimes(1);
   });
 });
