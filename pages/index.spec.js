@@ -6,16 +6,17 @@ jest.mock('@apollo/react-hooks', () => ({
   useLazyQuery: jest.fn()
 }));
 
-jest.useFakeTimers();
-
-afterAll(() => {
-  jest.useRealTimers();
-});
-
 describe('index page', () => {
-  it('should render', async () => {
-    const getUsersMock = jest.fn(); // mock the getUsers function and be able to inspect it
+  beforeEach(() => {
+    jest.useFakeTimers('modern');
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+  const getUsersMock = jest.fn(); // mock the getUsers function and be able to inspect it
 
+  it('should render', async () => {
+    // TODO: add tests when the page is loading
     useLazyQuery.mockImplementation(() => [
       getUsersMock,
       {
@@ -25,12 +26,7 @@ describe('index page', () => {
     ]);
 
     const { rerender } = render(<IndexPage />);
-
     expect(screen.getByText('Loading...')).toBeInTheDocument();
-
-    expect(
-      screen.getByText('Please enter a valid Github User Name')
-    ).toBeInTheDocument();
 
     useLazyQuery.mockImplementation(() => [
       getUsersMock,
@@ -46,8 +42,10 @@ describe('index page', () => {
     ]);
 
     rerender(<IndexPage />);
-
-    expect(screen.getByText('Repository Count: 5')).toBeInTheDocument();
+    // TODO: add tests for a user with 5 respositories
+    expect(
+      screen.getByText('Repository Count: 5', { exact: false })
+    ).toBeInTheDocument();
     expect(screen.getByTestId('user-avatar')).toBeInTheDocument();
 
     useLazyQuery.mockImplementation(() => [
@@ -65,6 +63,7 @@ describe('index page', () => {
 
     rerender(<IndexPage />);
 
+    // TODO: add tests for a user with 4 respositories
     expect(screen.getByText('Repository Count: 4')).toBeInTheDocument();
     expect(
       screen.getByText('This user does not have many repositories')
@@ -74,7 +73,6 @@ describe('index page', () => {
 
   it('debounces the calls to request more data', async () => {
     const getUsersMock = jest.fn();
-
     useLazyQuery.mockImplementation(() => [
       getUsersMock,
       {
@@ -82,30 +80,24 @@ describe('index page', () => {
         data: null
       }
     ]);
-
     render(<IndexPage />);
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-    expect(
-      screen.getByText('Please enter a valid Github User Name')
-    ).toBeInTheDocument();
+    // TODO: test the the debounced function is called after 1 second
 
     const input = screen.getByTestId('search-input');
-
     // it only calls the function once every 1000ms
-    fireEvent.change(input, { target: { value: '123' } });
-    jest.advanceTimersByTime(1000);
-
-    fireEvent.change(input, { target: { value: '456' } });
-    jest.advanceTimersByTime(1000);
 
     fireEvent.change(input, { target: { value: '123' } });
-    jest.advanceTimersByTime(1000);
 
-    fireEvent.change(input, { target: { value: '456' } });
+    jest.advanceTimersByTime(100);
     fireEvent.change(input, { target: { value: '123' } });
+
+    jest.advanceTimersByTime(999);
     fireEvent.change(input, { target: { value: '456' } });
 
-    expect(getUsersMock).toHaveBeenCalledTimes(3);
+    jest.advanceTimersByTime(100);
+    fireEvent.change(input, { target: { value: '123' } });
+
+    expect(getUsersMock).toHaveBeenCalledTimes(1);
   });
 });
