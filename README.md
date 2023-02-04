@@ -33,6 +33,8 @@ This app pulls a github user's data from the github graphql API https://docs.git
 
 Add tests in the `index.spec.js` file to cover all `TODO`s and run `yarn test`... ALL tests should pass.
 
+**Video walkthrough:** https://www.loom.com/share/2c0610272deb456da0b5f4b92d56b036
+
 ---
 
 **BONUS**
