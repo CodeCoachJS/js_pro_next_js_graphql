@@ -3,7 +3,22 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import Image from 'next/image';
 import { useDebounce } from '../hooks';
 
-const GET_USER_REPOS = gql``; //TODO: add query
+const GET_USER_REPOS = gql`
+  query ($login: String!) {
+    user(login: $login) {
+      avatarUrl
+      bio
+      bioHTML
+      name
+      company
+      location
+      repositories {
+        totalCount
+      }
+    }
+  }
+`;
+//TODO: add query
 
 const THRESHOLD = 5;
 

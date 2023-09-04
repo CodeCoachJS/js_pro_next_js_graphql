@@ -107,5 +107,6 @@ describe('index page', () => {
     fireEvent.change(input, { target: { value: '456' } });
 
     expect(getUsersMock).toHaveBeenCalledTimes(3);
+
   });
 });
